@@ -248,5 +248,6 @@ var dial = &dialect.Dialect{
 		&MessageMagothyMissionRequest{},
 		&MessageMagothyMissionTransfer{},
 		&MessageMagothyMissionAck{},
+		&MessageMagothyBeaconDetection{},
 	},
 }
