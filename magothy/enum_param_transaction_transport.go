@@ -16,19 +16,19 @@ const (
 	PARAM_TRANSACTION_TRANSPORT_PARAM_EXT PARAM_TRANSACTION_TRANSPORT = 1
 )
 
-var labels_PARAM_TRANSACTION_TRANSPORT = map[PARAM_TRANSACTION_TRANSPORT]string{
+var value_to_label_PARAM_TRANSACTION_TRANSPORT = map[PARAM_TRANSACTION_TRANSPORT]string{
 	PARAM_TRANSACTION_TRANSPORT_PARAM: "PARAM_TRANSACTION_TRANSPORT_PARAM",
 	PARAM_TRANSACTION_TRANSPORT_PARAM_EXT: "PARAM_TRANSACTION_TRANSPORT_PARAM_EXT",
 }
 
-var values_PARAM_TRANSACTION_TRANSPORT = map[string]PARAM_TRANSACTION_TRANSPORT{
+var label_to_value_PARAM_TRANSACTION_TRANSPORT = map[string]PARAM_TRANSACTION_TRANSPORT{
 	"PARAM_TRANSACTION_TRANSPORT_PARAM": PARAM_TRANSACTION_TRANSPORT_PARAM,
 	"PARAM_TRANSACTION_TRANSPORT_PARAM_EXT": PARAM_TRANSACTION_TRANSPORT_PARAM_EXT,
 }
 
 // MarshalText implements the encoding.TextMarshaler interface.
 func (e PARAM_TRANSACTION_TRANSPORT) MarshalText() ([]byte, error) {
-	if name, ok := labels_PARAM_TRANSACTION_TRANSPORT[e]; ok {
+	if name, ok := value_to_label_PARAM_TRANSACTION_TRANSPORT[e]; ok {
 		return []byte(name), nil
 	}
 	return []byte(strconv.Itoa(int(e))), nil
@@ -36,7 +36,7 @@ func (e PARAM_TRANSACTION_TRANSPORT) MarshalText() ([]byte, error) {
 
 // UnmarshalText implements the encoding.TextUnmarshaler interface.
 func (e *PARAM_TRANSACTION_TRANSPORT) UnmarshalText(text []byte) error {
-	if value, ok := values_PARAM_TRANSACTION_TRANSPORT[string(text)]; ok {
+	if value, ok := label_to_value_PARAM_TRANSACTION_TRANSPORT[string(text)]; ok {
 	   *e = value
 	} else if value, err := strconv.Atoi(string(text)); err == nil {
 	   *e = PARAM_TRANSACTION_TRANSPORT(value)

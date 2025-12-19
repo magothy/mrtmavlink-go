@@ -24,7 +24,7 @@ const (
 	WIFI_CONFIG_AP_RESPONSE_PASSWORD_ERROR WIFI_CONFIG_AP_RESPONSE = 5
 )
 
-var labels_WIFI_CONFIG_AP_RESPONSE = map[WIFI_CONFIG_AP_RESPONSE]string{
+var value_to_label_WIFI_CONFIG_AP_RESPONSE = map[WIFI_CONFIG_AP_RESPONSE]string{
 	WIFI_CONFIG_AP_RESPONSE_UNDEFINED: "WIFI_CONFIG_AP_RESPONSE_UNDEFINED",
 	WIFI_CONFIG_AP_RESPONSE_ACCEPTED: "WIFI_CONFIG_AP_RESPONSE_ACCEPTED",
 	WIFI_CONFIG_AP_RESPONSE_REJECTED: "WIFI_CONFIG_AP_RESPONSE_REJECTED",
@@ -33,7 +33,7 @@ var labels_WIFI_CONFIG_AP_RESPONSE = map[WIFI_CONFIG_AP_RESPONSE]string{
 	WIFI_CONFIG_AP_RESPONSE_PASSWORD_ERROR: "WIFI_CONFIG_AP_RESPONSE_PASSWORD_ERROR",
 }
 
-var values_WIFI_CONFIG_AP_RESPONSE = map[string]WIFI_CONFIG_AP_RESPONSE{
+var label_to_value_WIFI_CONFIG_AP_RESPONSE = map[string]WIFI_CONFIG_AP_RESPONSE{
 	"WIFI_CONFIG_AP_RESPONSE_UNDEFINED": WIFI_CONFIG_AP_RESPONSE_UNDEFINED,
 	"WIFI_CONFIG_AP_RESPONSE_ACCEPTED": WIFI_CONFIG_AP_RESPONSE_ACCEPTED,
 	"WIFI_CONFIG_AP_RESPONSE_REJECTED": WIFI_CONFIG_AP_RESPONSE_REJECTED,
@@ -44,7 +44,7 @@ var values_WIFI_CONFIG_AP_RESPONSE = map[string]WIFI_CONFIG_AP_RESPONSE{
 
 // MarshalText implements the encoding.TextMarshaler interface.
 func (e WIFI_CONFIG_AP_RESPONSE) MarshalText() ([]byte, error) {
-	if name, ok := labels_WIFI_CONFIG_AP_RESPONSE[e]; ok {
+	if name, ok := value_to_label_WIFI_CONFIG_AP_RESPONSE[e]; ok {
 		return []byte(name), nil
 	}
 	return []byte(strconv.Itoa(int(e))), nil
@@ -52,7 +52,7 @@ func (e WIFI_CONFIG_AP_RESPONSE) MarshalText() ([]byte, error) {
 
 // UnmarshalText implements the encoding.TextUnmarshaler interface.
 func (e *WIFI_CONFIG_AP_RESPONSE) UnmarshalText(text []byte) error {
-	if value, ok := values_WIFI_CONFIG_AP_RESPONSE[string(text)]; ok {
+	if value, ok := label_to_value_WIFI_CONFIG_AP_RESPONSE[string(text)]; ok {
 	   *e = value
 	} else if value, err := strconv.Atoi(string(text)); err == nil {
 	   *e = WIFI_CONFIG_AP_RESPONSE(value)

@@ -24,8 +24,16 @@ const (
 	// Set if spy is enabled
 	MAGOTHY_CAPABILITY_SPY MAGOTHY_CAPABILITY = 32
 )
+var values_MAGOTHY_CAPABILITY = []MAGOTHY_CAPABILITY{
+	MAGOTHY_CAPABILITY_LOG_MANAGEMENT,
+	MAGOTHY_CAPABILITY_FIRMWARE_UPDATE,
+	MAGOTHY_CAPABILITY_GYRO_CAL,
+	MAGOTHY_CAPABILITY_MAG_CAL_2D,
+	MAGOTHY_CAPABILITY_MAG_CAL_3D,
+	MAGOTHY_CAPABILITY_SPY,
+}
 
-var labels_MAGOTHY_CAPABILITY = map[MAGOTHY_CAPABILITY]string{
+var value_to_label_MAGOTHY_CAPABILITY = map[MAGOTHY_CAPABILITY]string{
 	MAGOTHY_CAPABILITY_LOG_MANAGEMENT: "MAGOTHY_CAPABILITY_LOG_MANAGEMENT",
 	MAGOTHY_CAPABILITY_FIRMWARE_UPDATE: "MAGOTHY_CAPABILITY_FIRMWARE_UPDATE",
 	MAGOTHY_CAPABILITY_GYRO_CAL: "MAGOTHY_CAPABILITY_GYRO_CAL",
@@ -34,7 +42,7 @@ var labels_MAGOTHY_CAPABILITY = map[MAGOTHY_CAPABILITY]string{
 	MAGOTHY_CAPABILITY_SPY: "MAGOTHY_CAPABILITY_SPY",
 }
 
-var values_MAGOTHY_CAPABILITY = map[string]MAGOTHY_CAPABILITY{
+var label_to_value_MAGOTHY_CAPABILITY = map[string]MAGOTHY_CAPABILITY{
 	"MAGOTHY_CAPABILITY_LOG_MANAGEMENT": MAGOTHY_CAPABILITY_LOG_MANAGEMENT,
 	"MAGOTHY_CAPABILITY_FIRMWARE_UPDATE": MAGOTHY_CAPABILITY_FIRMWARE_UPDATE,
 	"MAGOTHY_CAPABILITY_GYRO_CAL": MAGOTHY_CAPABILITY_GYRO_CAL,
@@ -49,10 +57,9 @@ func (e MAGOTHY_CAPABILITY) MarshalText() ([]byte, error) {
 		return []byte("0"), nil
 	}
 	var names []string
-	for i := 0; i < 6; i++ {
-		mask := MAGOTHY_CAPABILITY(1 << i)
-		if e&mask == mask {
-			names = append(names, labels_MAGOTHY_CAPABILITY[mask])
+	for _, val := range values_MAGOTHY_CAPABILITY {
+		if e&val == val {
+			names = append(names, value_to_label_MAGOTHY_CAPABILITY[val])
 		}
 	}
 	return []byte(strings.Join(names, " | ")), nil
@@ -63,7 +70,7 @@ func (e *MAGOTHY_CAPABILITY) UnmarshalText(text []byte) error {
 	labels := strings.Split(string(text), " | ")
 	var mask MAGOTHY_CAPABILITY
 	for _, label := range labels {
-		if value, ok := values_MAGOTHY_CAPABILITY[label]; ok {
+		if value, ok := label_to_value_MAGOTHY_CAPABILITY[label]; ok {
 			mask |= value
 		} else if value, err := strconv.Atoi(label); err == nil {
 			mask |= MAGOTHY_CAPABILITY(value)

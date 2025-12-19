@@ -20,14 +20,14 @@ const (
 	ZOOM_TYPE_FOCAL_LENGTH CAMERA_ZOOM_TYPE = 3
 )
 
-var labels_CAMERA_ZOOM_TYPE = map[CAMERA_ZOOM_TYPE]string{
+var value_to_label_CAMERA_ZOOM_TYPE = map[CAMERA_ZOOM_TYPE]string{
 	ZOOM_TYPE_STEP: "ZOOM_TYPE_STEP",
 	ZOOM_TYPE_CONTINUOUS: "ZOOM_TYPE_CONTINUOUS",
 	ZOOM_TYPE_RANGE: "ZOOM_TYPE_RANGE",
 	ZOOM_TYPE_FOCAL_LENGTH: "ZOOM_TYPE_FOCAL_LENGTH",
 }
 
-var values_CAMERA_ZOOM_TYPE = map[string]CAMERA_ZOOM_TYPE{
+var label_to_value_CAMERA_ZOOM_TYPE = map[string]CAMERA_ZOOM_TYPE{
 	"ZOOM_TYPE_STEP": ZOOM_TYPE_STEP,
 	"ZOOM_TYPE_CONTINUOUS": ZOOM_TYPE_CONTINUOUS,
 	"ZOOM_TYPE_RANGE": ZOOM_TYPE_RANGE,
@@ -36,7 +36,7 @@ var values_CAMERA_ZOOM_TYPE = map[string]CAMERA_ZOOM_TYPE{
 
 // MarshalText implements the encoding.TextMarshaler interface.
 func (e CAMERA_ZOOM_TYPE) MarshalText() ([]byte, error) {
-	if name, ok := labels_CAMERA_ZOOM_TYPE[e]; ok {
+	if name, ok := value_to_label_CAMERA_ZOOM_TYPE[e]; ok {
 		return []byte(name), nil
 	}
 	return []byte(strconv.Itoa(int(e))), nil
@@ -44,7 +44,7 @@ func (e CAMERA_ZOOM_TYPE) MarshalText() ([]byte, error) {
 
 // UnmarshalText implements the encoding.TextUnmarshaler interface.
 func (e *CAMERA_ZOOM_TYPE) UnmarshalText(text []byte) error {
-	if value, ok := values_CAMERA_ZOOM_TYPE[string(text)]; ok {
+	if value, ok := label_to_value_CAMERA_ZOOM_TYPE[string(text)]; ok {
 	   *e = value
 	} else if value, err := strconv.Atoi(string(text)); err == nil {
 	   *e = CAMERA_ZOOM_TYPE(value)

@@ -28,8 +28,18 @@ const (
 	// The fields next_lat, next_lon and next_alt contain valid data.
 	UTM_DATA_AVAIL_FLAGS_NEXT_WAYPOINT_AVAILABLE UTM_DATA_AVAIL_FLAGS = 128
 )
+var values_UTM_DATA_AVAIL_FLAGS = []UTM_DATA_AVAIL_FLAGS{
+	UTM_DATA_AVAIL_FLAGS_TIME_VALID,
+	UTM_DATA_AVAIL_FLAGS_UAS_ID_AVAILABLE,
+	UTM_DATA_AVAIL_FLAGS_POSITION_AVAILABLE,
+	UTM_DATA_AVAIL_FLAGS_ALTITUDE_AVAILABLE,
+	UTM_DATA_AVAIL_FLAGS_RELATIVE_ALTITUDE_AVAILABLE,
+	UTM_DATA_AVAIL_FLAGS_HORIZONTAL_VELO_AVAILABLE,
+	UTM_DATA_AVAIL_FLAGS_VERTICAL_VELO_AVAILABLE,
+	UTM_DATA_AVAIL_FLAGS_NEXT_WAYPOINT_AVAILABLE,
+}
 
-var labels_UTM_DATA_AVAIL_FLAGS = map[UTM_DATA_AVAIL_FLAGS]string{
+var value_to_label_UTM_DATA_AVAIL_FLAGS = map[UTM_DATA_AVAIL_FLAGS]string{
 	UTM_DATA_AVAIL_FLAGS_TIME_VALID: "UTM_DATA_AVAIL_FLAGS_TIME_VALID",
 	UTM_DATA_AVAIL_FLAGS_UAS_ID_AVAILABLE: "UTM_DATA_AVAIL_FLAGS_UAS_ID_AVAILABLE",
 	UTM_DATA_AVAIL_FLAGS_POSITION_AVAILABLE: "UTM_DATA_AVAIL_FLAGS_POSITION_AVAILABLE",
@@ -40,7 +50,7 @@ var labels_UTM_DATA_AVAIL_FLAGS = map[UTM_DATA_AVAIL_FLAGS]string{
 	UTM_DATA_AVAIL_FLAGS_NEXT_WAYPOINT_AVAILABLE: "UTM_DATA_AVAIL_FLAGS_NEXT_WAYPOINT_AVAILABLE",
 }
 
-var values_UTM_DATA_AVAIL_FLAGS = map[string]UTM_DATA_AVAIL_FLAGS{
+var label_to_value_UTM_DATA_AVAIL_FLAGS = map[string]UTM_DATA_AVAIL_FLAGS{
 	"UTM_DATA_AVAIL_FLAGS_TIME_VALID": UTM_DATA_AVAIL_FLAGS_TIME_VALID,
 	"UTM_DATA_AVAIL_FLAGS_UAS_ID_AVAILABLE": UTM_DATA_AVAIL_FLAGS_UAS_ID_AVAILABLE,
 	"UTM_DATA_AVAIL_FLAGS_POSITION_AVAILABLE": UTM_DATA_AVAIL_FLAGS_POSITION_AVAILABLE,
@@ -57,10 +67,9 @@ func (e UTM_DATA_AVAIL_FLAGS) MarshalText() ([]byte, error) {
 		return []byte("0"), nil
 	}
 	var names []string
-	for i := 0; i < 8; i++ {
-		mask := UTM_DATA_AVAIL_FLAGS(1 << i)
-		if e&mask == mask {
-			names = append(names, labels_UTM_DATA_AVAIL_FLAGS[mask])
+	for _, val := range values_UTM_DATA_AVAIL_FLAGS {
+		if e&val == val {
+			names = append(names, value_to_label_UTM_DATA_AVAIL_FLAGS[val])
 		}
 	}
 	return []byte(strings.Join(names, " | ")), nil
@@ -71,7 +80,7 @@ func (e *UTM_DATA_AVAIL_FLAGS) UnmarshalText(text []byte) error {
 	labels := strings.Split(string(text), " | ")
 	var mask UTM_DATA_AVAIL_FLAGS
 	for _, label := range labels {
-		if value, ok := values_UTM_DATA_AVAIL_FLAGS[label]; ok {
+		if value, ok := label_to_value_UTM_DATA_AVAIL_FLAGS[label]; ok {
 			mask |= value
 		} else if value, err := strconv.Atoi(label); err == nil {
 			mask |= UTM_DATA_AVAIL_FLAGS(value)

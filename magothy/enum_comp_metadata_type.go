@@ -18,13 +18,13 @@ const (
 	COMP_METADATA_TYPE_COMMANDS COMP_METADATA_TYPE = 2
 )
 
-var labels_COMP_METADATA_TYPE = map[COMP_METADATA_TYPE]string{
+var value_to_label_COMP_METADATA_TYPE = map[COMP_METADATA_TYPE]string{
 	COMP_METADATA_TYPE_VERSION: "COMP_METADATA_TYPE_VERSION",
 	COMP_METADATA_TYPE_PARAMETER: "COMP_METADATA_TYPE_PARAMETER",
 	COMP_METADATA_TYPE_COMMANDS: "COMP_METADATA_TYPE_COMMANDS",
 }
 
-var values_COMP_METADATA_TYPE = map[string]COMP_METADATA_TYPE{
+var label_to_value_COMP_METADATA_TYPE = map[string]COMP_METADATA_TYPE{
 	"COMP_METADATA_TYPE_VERSION": COMP_METADATA_TYPE_VERSION,
 	"COMP_METADATA_TYPE_PARAMETER": COMP_METADATA_TYPE_PARAMETER,
 	"COMP_METADATA_TYPE_COMMANDS": COMP_METADATA_TYPE_COMMANDS,
@@ -32,7 +32,7 @@ var values_COMP_METADATA_TYPE = map[string]COMP_METADATA_TYPE{
 
 // MarshalText implements the encoding.TextMarshaler interface.
 func (e COMP_METADATA_TYPE) MarshalText() ([]byte, error) {
-	if name, ok := labels_COMP_METADATA_TYPE[e]; ok {
+	if name, ok := value_to_label_COMP_METADATA_TYPE[e]; ok {
 		return []byte(name), nil
 	}
 	return []byte(strconv.Itoa(int(e))), nil
@@ -40,7 +40,7 @@ func (e COMP_METADATA_TYPE) MarshalText() ([]byte, error) {
 
 // UnmarshalText implements the encoding.TextUnmarshaler interface.
 func (e *COMP_METADATA_TYPE) UnmarshalText(text []byte) error {
-	if value, ok := values_COMP_METADATA_TYPE[string(text)]; ok {
+	if value, ok := label_to_value_COMP_METADATA_TYPE[string(text)]; ok {
 	   *e = value
 	} else if value, err := strconv.Atoi(string(text)); err == nil {
 	   *e = COMP_METADATA_TYPE(value)

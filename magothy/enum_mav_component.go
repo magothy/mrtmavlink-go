@@ -268,7 +268,7 @@ const (
 	MAV_COMP_ID_SYSTEM_CONTROL MAV_COMPONENT = 250
 )
 
-var labels_MAV_COMPONENT = map[MAV_COMPONENT]string{
+var value_to_label_MAV_COMPONENT = map[MAV_COMPONENT]string{
 	MAV_COMP_ID_ALL: "MAV_COMP_ID_ALL",
 	MAV_COMP_ID_AUTOPILOT1: "MAV_COMP_ID_AUTOPILOT1",
 	MAV_COMP_ID_USER1: "MAV_COMP_ID_USER1",
@@ -398,7 +398,7 @@ var labels_MAV_COMPONENT = map[MAV_COMPONENT]string{
 	MAV_COMP_ID_SYSTEM_CONTROL: "MAV_COMP_ID_SYSTEM_CONTROL",
 }
 
-var values_MAV_COMPONENT = map[string]MAV_COMPONENT{
+var label_to_value_MAV_COMPONENT = map[string]MAV_COMPONENT{
 	"MAV_COMP_ID_ALL": MAV_COMP_ID_ALL,
 	"MAV_COMP_ID_AUTOPILOT1": MAV_COMP_ID_AUTOPILOT1,
 	"MAV_COMP_ID_USER1": MAV_COMP_ID_USER1,
@@ -530,7 +530,7 @@ var values_MAV_COMPONENT = map[string]MAV_COMPONENT{
 
 // MarshalText implements the encoding.TextMarshaler interface.
 func (e MAV_COMPONENT) MarshalText() ([]byte, error) {
-	if name, ok := labels_MAV_COMPONENT[e]; ok {
+	if name, ok := value_to_label_MAV_COMPONENT[e]; ok {
 		return []byte(name), nil
 	}
 	return []byte(strconv.Itoa(int(e))), nil
@@ -538,7 +538,7 @@ func (e MAV_COMPONENT) MarshalText() ([]byte, error) {
 
 // UnmarshalText implements the encoding.TextUnmarshaler interface.
 func (e *MAV_COMPONENT) UnmarshalText(text []byte) error {
-	if value, ok := values_MAV_COMPONENT[string(text)]; ok {
+	if value, ok := label_to_value_MAV_COMPONENT[string(text)]; ok {
 	   *e = value
 	} else if value, err := strconv.Atoi(string(text)); err == nil {
 	   *e = MAV_COMPONENT(value)

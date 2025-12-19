@@ -31,7 +31,7 @@ const (
 	AIS_NAV_UNKNOWN AIS_NAV_STATUS = 15
 )
 
-var labels_AIS_NAV_STATUS = map[AIS_NAV_STATUS]string{
+var value_to_label_AIS_NAV_STATUS = map[AIS_NAV_STATUS]string{
 	UNDER_WAY: "UNDER_WAY",
 	AIS_NAV_ANCHORED: "AIS_NAV_ANCHORED",
 	AIS_NAV_UN_COMMANDED: "AIS_NAV_UN_COMMANDED",
@@ -50,7 +50,7 @@ var labels_AIS_NAV_STATUS = map[AIS_NAV_STATUS]string{
 	AIS_NAV_UNKNOWN: "AIS_NAV_UNKNOWN",
 }
 
-var values_AIS_NAV_STATUS = map[string]AIS_NAV_STATUS{
+var label_to_value_AIS_NAV_STATUS = map[string]AIS_NAV_STATUS{
 	"UNDER_WAY": UNDER_WAY,
 	"AIS_NAV_ANCHORED": AIS_NAV_ANCHORED,
 	"AIS_NAV_UN_COMMANDED": AIS_NAV_UN_COMMANDED,
@@ -71,7 +71,7 @@ var values_AIS_NAV_STATUS = map[string]AIS_NAV_STATUS{
 
 // MarshalText implements the encoding.TextMarshaler interface.
 func (e AIS_NAV_STATUS) MarshalText() ([]byte, error) {
-	if name, ok := labels_AIS_NAV_STATUS[e]; ok {
+	if name, ok := value_to_label_AIS_NAV_STATUS[e]; ok {
 		return []byte(name), nil
 	}
 	return []byte(strconv.Itoa(int(e))), nil
@@ -79,7 +79,7 @@ func (e AIS_NAV_STATUS) MarshalText() ([]byte, error) {
 
 // UnmarshalText implements the encoding.TextUnmarshaler interface.
 func (e *AIS_NAV_STATUS) UnmarshalText(text []byte) error {
-	if value, ok := values_AIS_NAV_STATUS[string(text)]; ok {
+	if value, ok := label_to_value_AIS_NAV_STATUS[string(text)]; ok {
 	   *e = value
 	} else if value, err := strconv.Atoi(string(text)); err == nil {
 	   *e = AIS_NAV_STATUS(value)

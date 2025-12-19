@@ -26,7 +26,7 @@ const (
 	MAV_RESULT_CANCELLED MAV_RESULT = 6
 )
 
-var labels_MAV_RESULT = map[MAV_RESULT]string{
+var value_to_label_MAV_RESULT = map[MAV_RESULT]string{
 	MAV_RESULT_ACCEPTED: "MAV_RESULT_ACCEPTED",
 	MAV_RESULT_TEMPORARILY_REJECTED: "MAV_RESULT_TEMPORARILY_REJECTED",
 	MAV_RESULT_DENIED: "MAV_RESULT_DENIED",
@@ -36,7 +36,7 @@ var labels_MAV_RESULT = map[MAV_RESULT]string{
 	MAV_RESULT_CANCELLED: "MAV_RESULT_CANCELLED",
 }
 
-var values_MAV_RESULT = map[string]MAV_RESULT{
+var label_to_value_MAV_RESULT = map[string]MAV_RESULT{
 	"MAV_RESULT_ACCEPTED": MAV_RESULT_ACCEPTED,
 	"MAV_RESULT_TEMPORARILY_REJECTED": MAV_RESULT_TEMPORARILY_REJECTED,
 	"MAV_RESULT_DENIED": MAV_RESULT_DENIED,
@@ -48,7 +48,7 @@ var values_MAV_RESULT = map[string]MAV_RESULT{
 
 // MarshalText implements the encoding.TextMarshaler interface.
 func (e MAV_RESULT) MarshalText() ([]byte, error) {
-	if name, ok := labels_MAV_RESULT[e]; ok {
+	if name, ok := value_to_label_MAV_RESULT[e]; ok {
 		return []byte(name), nil
 	}
 	return []byte(strconv.Itoa(int(e))), nil
@@ -56,7 +56,7 @@ func (e MAV_RESULT) MarshalText() ([]byte, error) {
 
 // UnmarshalText implements the encoding.TextUnmarshaler interface.
 func (e *MAV_RESULT) UnmarshalText(text []byte) error {
-	if value, ok := values_MAV_RESULT[string(text)]; ok {
+	if value, ok := label_to_value_MAV_RESULT[string(text)]; ok {
 	   *e = value
 	} else if value, err := strconv.Atoi(string(text)); err == nil {
 	   *e = MAV_RESULT(value)

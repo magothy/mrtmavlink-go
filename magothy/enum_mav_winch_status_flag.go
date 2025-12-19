@@ -20,15 +20,21 @@ const (
 	// Winch clutch is engaged allowing motor to move freely
 	MAV_WINCH_STATUS_CLUTCH_ENGAGED MAV_WINCH_STATUS_FLAG = 8
 )
+var values_MAV_WINCH_STATUS_FLAG = []MAV_WINCH_STATUS_FLAG{
+	MAV_WINCH_STATUS_HEALTHY,
+	MAV_WINCH_STATUS_FULLY_RETRACTED,
+	MAV_WINCH_STATUS_MOVING,
+	MAV_WINCH_STATUS_CLUTCH_ENGAGED,
+}
 
-var labels_MAV_WINCH_STATUS_FLAG = map[MAV_WINCH_STATUS_FLAG]string{
+var value_to_label_MAV_WINCH_STATUS_FLAG = map[MAV_WINCH_STATUS_FLAG]string{
 	MAV_WINCH_STATUS_HEALTHY: "MAV_WINCH_STATUS_HEALTHY",
 	MAV_WINCH_STATUS_FULLY_RETRACTED: "MAV_WINCH_STATUS_FULLY_RETRACTED",
 	MAV_WINCH_STATUS_MOVING: "MAV_WINCH_STATUS_MOVING",
 	MAV_WINCH_STATUS_CLUTCH_ENGAGED: "MAV_WINCH_STATUS_CLUTCH_ENGAGED",
 }
 
-var values_MAV_WINCH_STATUS_FLAG = map[string]MAV_WINCH_STATUS_FLAG{
+var label_to_value_MAV_WINCH_STATUS_FLAG = map[string]MAV_WINCH_STATUS_FLAG{
 	"MAV_WINCH_STATUS_HEALTHY": MAV_WINCH_STATUS_HEALTHY,
 	"MAV_WINCH_STATUS_FULLY_RETRACTED": MAV_WINCH_STATUS_FULLY_RETRACTED,
 	"MAV_WINCH_STATUS_MOVING": MAV_WINCH_STATUS_MOVING,
@@ -41,10 +47,9 @@ func (e MAV_WINCH_STATUS_FLAG) MarshalText() ([]byte, error) {
 		return []byte("0"), nil
 	}
 	var names []string
-	for i := 0; i < 4; i++ {
-		mask := MAV_WINCH_STATUS_FLAG(1 << i)
-		if e&mask == mask {
-			names = append(names, labels_MAV_WINCH_STATUS_FLAG[mask])
+	for _, val := range values_MAV_WINCH_STATUS_FLAG {
+		if e&val == val {
+			names = append(names, value_to_label_MAV_WINCH_STATUS_FLAG[val])
 		}
 	}
 	return []byte(strings.Join(names, " | ")), nil
@@ -55,7 +60,7 @@ func (e *MAV_WINCH_STATUS_FLAG) UnmarshalText(text []byte) error {
 	labels := strings.Split(string(text), " | ")
 	var mask MAV_WINCH_STATUS_FLAG
 	for _, label := range labels {
-		if value, ok := values_MAV_WINCH_STATUS_FLAG[label]; ok {
+		if value, ok := label_to_value_MAV_WINCH_STATUS_FLAG[label]; ok {
 			mask |= value
 		} else if value, err := strconv.Atoi(label); err == nil {
 			mask |= MAV_WINCH_STATUS_FLAG(value)

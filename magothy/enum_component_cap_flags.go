@@ -16,13 +16,17 @@ const (
 	// Component has parameters, and supports the extended parameter protocol (PARAM_EXT messages).
 	COMPONENT_CAP_FLAGS_PARAM_EXT COMPONENT_CAP_FLAGS = 2
 )
+var values_COMPONENT_CAP_FLAGS = []COMPONENT_CAP_FLAGS{
+	COMPONENT_CAP_FLAGS_PARAM,
+	COMPONENT_CAP_FLAGS_PARAM_EXT,
+}
 
-var labels_COMPONENT_CAP_FLAGS = map[COMPONENT_CAP_FLAGS]string{
+var value_to_label_COMPONENT_CAP_FLAGS = map[COMPONENT_CAP_FLAGS]string{
 	COMPONENT_CAP_FLAGS_PARAM: "COMPONENT_CAP_FLAGS_PARAM",
 	COMPONENT_CAP_FLAGS_PARAM_EXT: "COMPONENT_CAP_FLAGS_PARAM_EXT",
 }
 
-var values_COMPONENT_CAP_FLAGS = map[string]COMPONENT_CAP_FLAGS{
+var label_to_value_COMPONENT_CAP_FLAGS = map[string]COMPONENT_CAP_FLAGS{
 	"COMPONENT_CAP_FLAGS_PARAM": COMPONENT_CAP_FLAGS_PARAM,
 	"COMPONENT_CAP_FLAGS_PARAM_EXT": COMPONENT_CAP_FLAGS_PARAM_EXT,
 }
@@ -33,10 +37,9 @@ func (e COMPONENT_CAP_FLAGS) MarshalText() ([]byte, error) {
 		return []byte("0"), nil
 	}
 	var names []string
-	for i := 0; i < 2; i++ {
-		mask := COMPONENT_CAP_FLAGS(1 << i)
-		if e&mask == mask {
-			names = append(names, labels_COMPONENT_CAP_FLAGS[mask])
+	for _, val := range values_COMPONENT_CAP_FLAGS {
+		if e&val == val {
+			names = append(names, value_to_label_COMPONENT_CAP_FLAGS[val])
 		}
 	}
 	return []byte(strings.Join(names, " | ")), nil
@@ -47,7 +50,7 @@ func (e *COMPONENT_CAP_FLAGS) UnmarshalText(text []byte) error {
 	labels := strings.Split(string(text), " | ")
 	var mask COMPONENT_CAP_FLAGS
 	for _, label := range labels {
-		if value, ok := values_COMPONENT_CAP_FLAGS[label]; ok {
+		if value, ok := label_to_value_COMPONENT_CAP_FLAGS[label]; ok {
 			mask |= value
 		} else if value, err := strconv.Atoi(label); err == nil {
 			mask |= COMPONENT_CAP_FLAGS(value)

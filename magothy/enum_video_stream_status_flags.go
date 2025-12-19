@@ -16,13 +16,17 @@ const (
 	// Stream is thermal imaging
 	VIDEO_STREAM_STATUS_FLAGS_THERMAL VIDEO_STREAM_STATUS_FLAGS = 2
 )
+var values_VIDEO_STREAM_STATUS_FLAGS = []VIDEO_STREAM_STATUS_FLAGS{
+	VIDEO_STREAM_STATUS_FLAGS_RUNNING,
+	VIDEO_STREAM_STATUS_FLAGS_THERMAL,
+}
 
-var labels_VIDEO_STREAM_STATUS_FLAGS = map[VIDEO_STREAM_STATUS_FLAGS]string{
+var value_to_label_VIDEO_STREAM_STATUS_FLAGS = map[VIDEO_STREAM_STATUS_FLAGS]string{
 	VIDEO_STREAM_STATUS_FLAGS_RUNNING: "VIDEO_STREAM_STATUS_FLAGS_RUNNING",
 	VIDEO_STREAM_STATUS_FLAGS_THERMAL: "VIDEO_STREAM_STATUS_FLAGS_THERMAL",
 }
 
-var values_VIDEO_STREAM_STATUS_FLAGS = map[string]VIDEO_STREAM_STATUS_FLAGS{
+var label_to_value_VIDEO_STREAM_STATUS_FLAGS = map[string]VIDEO_STREAM_STATUS_FLAGS{
 	"VIDEO_STREAM_STATUS_FLAGS_RUNNING": VIDEO_STREAM_STATUS_FLAGS_RUNNING,
 	"VIDEO_STREAM_STATUS_FLAGS_THERMAL": VIDEO_STREAM_STATUS_FLAGS_THERMAL,
 }
@@ -33,10 +37,9 @@ func (e VIDEO_STREAM_STATUS_FLAGS) MarshalText() ([]byte, error) {
 		return []byte("0"), nil
 	}
 	var names []string
-	for i := 0; i < 2; i++ {
-		mask := VIDEO_STREAM_STATUS_FLAGS(1 << i)
-		if e&mask == mask {
-			names = append(names, labels_VIDEO_STREAM_STATUS_FLAGS[mask])
+	for _, val := range values_VIDEO_STREAM_STATUS_FLAGS {
+		if e&val == val {
+			names = append(names, value_to_label_VIDEO_STREAM_STATUS_FLAGS[val])
 		}
 	}
 	return []byte(strings.Join(names, " | ")), nil
@@ -47,7 +50,7 @@ func (e *VIDEO_STREAM_STATUS_FLAGS) UnmarshalText(text []byte) error {
 	labels := strings.Split(string(text), " | ")
 	var mask VIDEO_STREAM_STATUS_FLAGS
 	for _, label := range labels {
-		if value, ok := values_VIDEO_STREAM_STATUS_FLAGS[label]; ok {
+		if value, ok := label_to_value_VIDEO_STREAM_STATUS_FLAGS[label]; ok {
 			mask |= value
 		} else if value, err := strconv.Atoi(label); err == nil {
 			mask |= VIDEO_STREAM_STATUS_FLAGS(value)

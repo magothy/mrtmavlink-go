@@ -22,8 +22,15 @@ const (
 	// Based on GIMBAL_DEVICE_FLAGS_YAW_LOCK
 	GIMBAL_MANAGER_FLAGS_YAW_LOCK GIMBAL_MANAGER_FLAGS = 16
 )
+var values_GIMBAL_MANAGER_FLAGS = []GIMBAL_MANAGER_FLAGS{
+	GIMBAL_MANAGER_FLAGS_RETRACT,
+	GIMBAL_MANAGER_FLAGS_NEUTRAL,
+	GIMBAL_MANAGER_FLAGS_ROLL_LOCK,
+	GIMBAL_MANAGER_FLAGS_PITCH_LOCK,
+	GIMBAL_MANAGER_FLAGS_YAW_LOCK,
+}
 
-var labels_GIMBAL_MANAGER_FLAGS = map[GIMBAL_MANAGER_FLAGS]string{
+var value_to_label_GIMBAL_MANAGER_FLAGS = map[GIMBAL_MANAGER_FLAGS]string{
 	GIMBAL_MANAGER_FLAGS_RETRACT: "GIMBAL_MANAGER_FLAGS_RETRACT",
 	GIMBAL_MANAGER_FLAGS_NEUTRAL: "GIMBAL_MANAGER_FLAGS_NEUTRAL",
 	GIMBAL_MANAGER_FLAGS_ROLL_LOCK: "GIMBAL_MANAGER_FLAGS_ROLL_LOCK",
@@ -31,7 +38,7 @@ var labels_GIMBAL_MANAGER_FLAGS = map[GIMBAL_MANAGER_FLAGS]string{
 	GIMBAL_MANAGER_FLAGS_YAW_LOCK: "GIMBAL_MANAGER_FLAGS_YAW_LOCK",
 }
 
-var values_GIMBAL_MANAGER_FLAGS = map[string]GIMBAL_MANAGER_FLAGS{
+var label_to_value_GIMBAL_MANAGER_FLAGS = map[string]GIMBAL_MANAGER_FLAGS{
 	"GIMBAL_MANAGER_FLAGS_RETRACT": GIMBAL_MANAGER_FLAGS_RETRACT,
 	"GIMBAL_MANAGER_FLAGS_NEUTRAL": GIMBAL_MANAGER_FLAGS_NEUTRAL,
 	"GIMBAL_MANAGER_FLAGS_ROLL_LOCK": GIMBAL_MANAGER_FLAGS_ROLL_LOCK,
@@ -45,10 +52,9 @@ func (e GIMBAL_MANAGER_FLAGS) MarshalText() ([]byte, error) {
 		return []byte("0"), nil
 	}
 	var names []string
-	for i := 0; i < 5; i++ {
-		mask := GIMBAL_MANAGER_FLAGS(1 << i)
-		if e&mask == mask {
-			names = append(names, labels_GIMBAL_MANAGER_FLAGS[mask])
+	for _, val := range values_GIMBAL_MANAGER_FLAGS {
+		if e&val == val {
+			names = append(names, value_to_label_GIMBAL_MANAGER_FLAGS[val])
 		}
 	}
 	return []byte(strings.Join(names, " | ")), nil
@@ -59,7 +65,7 @@ func (e *GIMBAL_MANAGER_FLAGS) UnmarshalText(text []byte) error {
 	labels := strings.Split(string(text), " | ")
 	var mask GIMBAL_MANAGER_FLAGS
 	for _, label := range labels {
-		if value, ok := values_GIMBAL_MANAGER_FLAGS[label]; ok {
+		if value, ok := label_to_value_GIMBAL_MANAGER_FLAGS[label]; ok {
 			mask |= value
 		} else if value, err := strconv.Atoi(label); err == nil {
 			mask |= GIMBAL_MANAGER_FLAGS(value)

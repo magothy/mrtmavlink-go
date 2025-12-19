@@ -26,8 +26,17 @@ const (
 	// Vehicle voltage is not compatible with this battery (batteries on same power rail should have similar voltage).
 	MAV_BATTERY_FAULT_INCOMPATIBLE_VOLTAGE MAV_BATTERY_FAULT = 64
 )
+var values_MAV_BATTERY_FAULT = []MAV_BATTERY_FAULT{
+	MAV_BATTERY_FAULT_DEEP_DISCHARGE,
+	MAV_BATTERY_FAULT_SPIKES,
+	MAV_BATTERY_FAULT_CELL_FAIL,
+	MAV_BATTERY_FAULT_OVER_CURRENT,
+	MAV_BATTERY_FAULT_OVER_TEMPERATURE,
+	MAV_BATTERY_FAULT_UNDER_TEMPERATURE,
+	MAV_BATTERY_FAULT_INCOMPATIBLE_VOLTAGE,
+}
 
-var labels_MAV_BATTERY_FAULT = map[MAV_BATTERY_FAULT]string{
+var value_to_label_MAV_BATTERY_FAULT = map[MAV_BATTERY_FAULT]string{
 	MAV_BATTERY_FAULT_DEEP_DISCHARGE: "MAV_BATTERY_FAULT_DEEP_DISCHARGE",
 	MAV_BATTERY_FAULT_SPIKES: "MAV_BATTERY_FAULT_SPIKES",
 	MAV_BATTERY_FAULT_CELL_FAIL: "MAV_BATTERY_FAULT_CELL_FAIL",
@@ -37,7 +46,7 @@ var labels_MAV_BATTERY_FAULT = map[MAV_BATTERY_FAULT]string{
 	MAV_BATTERY_FAULT_INCOMPATIBLE_VOLTAGE: "MAV_BATTERY_FAULT_INCOMPATIBLE_VOLTAGE",
 }
 
-var values_MAV_BATTERY_FAULT = map[string]MAV_BATTERY_FAULT{
+var label_to_value_MAV_BATTERY_FAULT = map[string]MAV_BATTERY_FAULT{
 	"MAV_BATTERY_FAULT_DEEP_DISCHARGE": MAV_BATTERY_FAULT_DEEP_DISCHARGE,
 	"MAV_BATTERY_FAULT_SPIKES": MAV_BATTERY_FAULT_SPIKES,
 	"MAV_BATTERY_FAULT_CELL_FAIL": MAV_BATTERY_FAULT_CELL_FAIL,
@@ -53,10 +62,9 @@ func (e MAV_BATTERY_FAULT) MarshalText() ([]byte, error) {
 		return []byte("0"), nil
 	}
 	var names []string
-	for i := 0; i < 7; i++ {
-		mask := MAV_BATTERY_FAULT(1 << i)
-		if e&mask == mask {
-			names = append(names, labels_MAV_BATTERY_FAULT[mask])
+	for _, val := range values_MAV_BATTERY_FAULT {
+		if e&val == val {
+			names = append(names, value_to_label_MAV_BATTERY_FAULT[val])
 		}
 	}
 	return []byte(strings.Join(names, " | ")), nil
@@ -67,7 +75,7 @@ func (e *MAV_BATTERY_FAULT) UnmarshalText(text []byte) error {
 	labels := strings.Split(string(text), " | ")
 	var mask MAV_BATTERY_FAULT
 	for _, label := range labels {
-		if value, ok := values_MAV_BATTERY_FAULT[label]; ok {
+		if value, ok := label_to_value_MAV_BATTERY_FAULT[label]; ok {
 			mask |= value
 		} else if value, err := strconv.Atoi(label); err == nil {
 			mask |= MAV_BATTERY_FAULT(value)

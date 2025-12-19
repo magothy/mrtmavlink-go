@@ -19,14 +19,14 @@ const (
 	MAV_ODID_STATUS_EMERGENCY MAV_ODID_STATUS = 3
 )
 
-var labels_MAV_ODID_STATUS = map[MAV_ODID_STATUS]string{
+var value_to_label_MAV_ODID_STATUS = map[MAV_ODID_STATUS]string{
 	MAV_ODID_STATUS_UNDECLARED: "MAV_ODID_STATUS_UNDECLARED",
 	MAV_ODID_STATUS_GROUND: "MAV_ODID_STATUS_GROUND",
 	MAV_ODID_STATUS_AIRBORNE: "MAV_ODID_STATUS_AIRBORNE",
 	MAV_ODID_STATUS_EMERGENCY: "MAV_ODID_STATUS_EMERGENCY",
 }
 
-var values_MAV_ODID_STATUS = map[string]MAV_ODID_STATUS{
+var label_to_value_MAV_ODID_STATUS = map[string]MAV_ODID_STATUS{
 	"MAV_ODID_STATUS_UNDECLARED": MAV_ODID_STATUS_UNDECLARED,
 	"MAV_ODID_STATUS_GROUND": MAV_ODID_STATUS_GROUND,
 	"MAV_ODID_STATUS_AIRBORNE": MAV_ODID_STATUS_AIRBORNE,
@@ -35,7 +35,7 @@ var values_MAV_ODID_STATUS = map[string]MAV_ODID_STATUS{
 
 // MarshalText implements the encoding.TextMarshaler interface.
 func (e MAV_ODID_STATUS) MarshalText() ([]byte, error) {
-	if name, ok := labels_MAV_ODID_STATUS[e]; ok {
+	if name, ok := value_to_label_MAV_ODID_STATUS[e]; ok {
 		return []byte(name), nil
 	}
 	return []byte(strconv.Itoa(int(e))), nil
@@ -43,7 +43,7 @@ func (e MAV_ODID_STATUS) MarshalText() ([]byte, error) {
 
 // UnmarshalText implements the encoding.TextUnmarshaler interface.
 func (e *MAV_ODID_STATUS) UnmarshalText(text []byte) error {
-	if value, ok := values_MAV_ODID_STATUS[string(text)]; ok {
+	if value, ok := label_to_value_MAV_ODID_STATUS[string(text)]; ok {
 	   *e = value
 	} else if value, err := strconv.Atoi(string(text)); err == nil {
 	   *e = MAV_ODID_STATUS(value)

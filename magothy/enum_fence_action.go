@@ -21,7 +21,7 @@ const (
 	FENCE_ACTION_RTL FENCE_ACTION = 4
 )
 
-var labels_FENCE_ACTION = map[FENCE_ACTION]string{
+var value_to_label_FENCE_ACTION = map[FENCE_ACTION]string{
 	FENCE_ACTION_NONE: "FENCE_ACTION_NONE",
 	FENCE_ACTION_GUIDED: "FENCE_ACTION_GUIDED",
 	FENCE_ACTION_REPORT: "FENCE_ACTION_REPORT",
@@ -29,7 +29,7 @@ var labels_FENCE_ACTION = map[FENCE_ACTION]string{
 	FENCE_ACTION_RTL: "FENCE_ACTION_RTL",
 }
 
-var values_FENCE_ACTION = map[string]FENCE_ACTION{
+var label_to_value_FENCE_ACTION = map[string]FENCE_ACTION{
 	"FENCE_ACTION_NONE": FENCE_ACTION_NONE,
 	"FENCE_ACTION_GUIDED": FENCE_ACTION_GUIDED,
 	"FENCE_ACTION_REPORT": FENCE_ACTION_REPORT,
@@ -39,7 +39,7 @@ var values_FENCE_ACTION = map[string]FENCE_ACTION{
 
 // MarshalText implements the encoding.TextMarshaler interface.
 func (e FENCE_ACTION) MarshalText() ([]byte, error) {
-	if name, ok := labels_FENCE_ACTION[e]; ok {
+	if name, ok := value_to_label_FENCE_ACTION[e]; ok {
 		return []byte(name), nil
 	}
 	return []byte(strconv.Itoa(int(e))), nil
@@ -47,7 +47,7 @@ func (e FENCE_ACTION) MarshalText() ([]byte, error) {
 
 // UnmarshalText implements the encoding.TextUnmarshaler interface.
 func (e *FENCE_ACTION) UnmarshalText(text []byte) error {
-	if value, ok := values_FENCE_ACTION[string(text)]; ok {
+	if value, ok := label_to_value_FENCE_ACTION[string(text)]; ok {
 	   *e = value
 	} else if value, err := strconv.Atoi(string(text)); err == nil {
 	   *e = FENCE_ACTION(value)

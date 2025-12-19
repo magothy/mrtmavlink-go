@@ -36,8 +36,22 @@ const (
 	// Camera supports tracking geo status (CAMERA_TRACKING_GEO_STATUS).
 	CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS CAMERA_CAP_FLAGS = 2048
 )
+var values_CAMERA_CAP_FLAGS = []CAMERA_CAP_FLAGS{
+	CAMERA_CAP_FLAGS_CAPTURE_VIDEO,
+	CAMERA_CAP_FLAGS_CAPTURE_IMAGE,
+	CAMERA_CAP_FLAGS_HAS_MODES,
+	CAMERA_CAP_FLAGS_CAN_CAPTURE_IMAGE_IN_VIDEO_MODE,
+	CAMERA_CAP_FLAGS_CAN_CAPTURE_VIDEO_IN_IMAGE_MODE,
+	CAMERA_CAP_FLAGS_HAS_IMAGE_SURVEY_MODE,
+	CAMERA_CAP_FLAGS_HAS_BASIC_ZOOM,
+	CAMERA_CAP_FLAGS_HAS_BASIC_FOCUS,
+	CAMERA_CAP_FLAGS_HAS_VIDEO_STREAM,
+	CAMERA_CAP_FLAGS_HAS_TRACKING_POINT,
+	CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE,
+	CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS,
+}
 
-var labels_CAMERA_CAP_FLAGS = map[CAMERA_CAP_FLAGS]string{
+var value_to_label_CAMERA_CAP_FLAGS = map[CAMERA_CAP_FLAGS]string{
 	CAMERA_CAP_FLAGS_CAPTURE_VIDEO: "CAMERA_CAP_FLAGS_CAPTURE_VIDEO",
 	CAMERA_CAP_FLAGS_CAPTURE_IMAGE: "CAMERA_CAP_FLAGS_CAPTURE_IMAGE",
 	CAMERA_CAP_FLAGS_HAS_MODES: "CAMERA_CAP_FLAGS_HAS_MODES",
@@ -52,7 +66,7 @@ var labels_CAMERA_CAP_FLAGS = map[CAMERA_CAP_FLAGS]string{
 	CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS: "CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS",
 }
 
-var values_CAMERA_CAP_FLAGS = map[string]CAMERA_CAP_FLAGS{
+var label_to_value_CAMERA_CAP_FLAGS = map[string]CAMERA_CAP_FLAGS{
 	"CAMERA_CAP_FLAGS_CAPTURE_VIDEO": CAMERA_CAP_FLAGS_CAPTURE_VIDEO,
 	"CAMERA_CAP_FLAGS_CAPTURE_IMAGE": CAMERA_CAP_FLAGS_CAPTURE_IMAGE,
 	"CAMERA_CAP_FLAGS_HAS_MODES": CAMERA_CAP_FLAGS_HAS_MODES,
@@ -73,10 +87,9 @@ func (e CAMERA_CAP_FLAGS) MarshalText() ([]byte, error) {
 		return []byte("0"), nil
 	}
 	var names []string
-	for i := 0; i < 12; i++ {
-		mask := CAMERA_CAP_FLAGS(1 << i)
-		if e&mask == mask {
-			names = append(names, labels_CAMERA_CAP_FLAGS[mask])
+	for _, val := range values_CAMERA_CAP_FLAGS {
+		if e&val == val {
+			names = append(names, value_to_label_CAMERA_CAP_FLAGS[val])
 		}
 	}
 	return []byte(strings.Join(names, " | ")), nil
@@ -87,7 +100,7 @@ func (e *CAMERA_CAP_FLAGS) UnmarshalText(text []byte) error {
 	labels := strings.Split(string(text), " | ")
 	var mask CAMERA_CAP_FLAGS
 	for _, label := range labels {
-		if value, ok := values_CAMERA_CAP_FLAGS[label]; ok {
+		if value, ok := label_to_value_CAMERA_CAP_FLAGS[label]; ok {
 			mask |= value
 		} else if value, err := strconv.Atoi(label); err == nil {
 			mask |= CAMERA_CAP_FLAGS(value)
