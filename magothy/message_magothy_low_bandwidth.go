@@ -45,6 +45,10 @@ type MessageMagothyLowBandwidth struct {
 	GcsSetModeUuidLsb uint32 `mavext:"true"`
 	// CRC-16/CCITT-FALSE of serialized loaded mission
 	MissionCrc uint16 `mavext:"true"`
+	// Altitude - NaN for unset. On USV: altimeter reading. On arial drone: MSL
+	Altitude float32 `mavext:"true"`
+	// Depth - NaN for unset. Depth below waterline
+	Depth float32 `mavext:"true"`
 }
 
 // GetID implements the message.Message interface.
