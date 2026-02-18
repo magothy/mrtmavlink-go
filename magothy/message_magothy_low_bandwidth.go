@@ -49,7 +49,7 @@ type MessageMagothyLowBandwidth struct {
 	Altitude float32 `mavext:"true"`
 	// Depth - NaN for unset. Depth below waterline
 	Depth float32 `mavext:"true"`
-	// Position error covariance matrix - NaN for unset
+	// Position error covariance matrix, units are m^2 - NaN for unset
 	PositionErrorCovar [4]float32 `mavext:"true"`
 	// 1 if GPS spoofing mitigation is enabled, else 0
 	GpsSpoofingMitigationEnabled uint8 `mavext:"true"`
