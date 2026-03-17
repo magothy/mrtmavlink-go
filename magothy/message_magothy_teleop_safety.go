@@ -11,6 +11,12 @@ type MessageMagothyTeleopSafety struct {
 	IsSafeLatched uint8
 	// Distance to nearest obstacle (m), NaN if no obstacle detected
 	DistanceToObstacleM float32
+	// Minimum distance to maintain from obstacles (m)
+	MinSafeDistanceM float32 `mavext:"true"`
+	// Field of view (deg)
+	FieldOfViewDeg float32 `mavext:"true"`
+	// Bearing to nearest obstacle (deg) clockwise from north, NaN if no obstacle detected
+	BearingToObstacleDeg float32 `mavext:"true"`
 }
 
 // GetID implements the message.Message interface.
