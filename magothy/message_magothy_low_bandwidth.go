@@ -51,12 +51,8 @@ type MessageMagothyLowBandwidth struct {
 	Depth float32 `mavext:"true"`
 	// Position error covariance matrix, units are m^2 - NaN for unset
 	PositionErrorCovar [4]float32 `mavext:"true"`
-	// 1 if GPS spoofing mitigation is enabled, else 0
-	GpsSpoofingMitigationEnabled uint8 `mavext:"true"`
-	// 1 if GPS spoofing mitigation is active, else 0
-	GpsSpoofingMitigationActive uint8 `mavext:"true"`
-	// 1 if GPS spoofing is detected, else 0
-	GpsSpoofingDetected uint8 `mavext:"true"`
+	// Bitmask indicating GPS spoofing status
+	GpsSpoofingStatusBitmask MAGOTHY_GPS_SPOOFING `mavenum:"uint16" mavext:"true"`
 }
 
 // GetID implements the message.Message interface.
