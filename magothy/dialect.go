@@ -250,5 +250,6 @@ var dial = &dialect.Dialect{
 		&MessageMagothyMissionAck{},
 		&MessageMagothyBeaconDetection{},
 		&MessageMagothyTeleopSafety{},
+		&MessageMagothyBearingCorrection{},
 	},
 }
